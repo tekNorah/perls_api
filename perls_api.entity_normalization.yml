@@ -1,0 +1,188 @@
+user.base:
+  type: user
+  bundle: user
+  fields:
+    uuid:
+      name: id
+    url:
+      type: pseudo
+      normalizer: entity_url.normalizer
+    field_name:
+      name: name
+    user_picture:
+      name: avatar
+      type: thumbnail
+      normalizer: image_style.normalizer
+
+    mail:
+    name:
+      name: username
+    status:
+      name: is_enabled
+    roles:
+    preferred_langcode:
+    changed:
+      normalizer: datetime_to_iso8601.normalizer
+    access:
+      name: last_access
+      normalizer: datetime_to_iso8601.normalizer
+    login:
+      name: last_login
+      normalizer: datetime_to_iso8601.normalizer
+
+term.base:
+  type: taxonomy_term
+  bundle: [category,tags]
+  fields:
+    uuid:
+      name: id
+    revision_id:
+      name: vid
+    url:
+      type: pseudo
+      normalizer: entity_url.normalizer
+    name:
+    vid:
+      name: type
+      normalizer: entity_id.normalizer
+    changed:
+      normalizer: datetime_to_iso8601.normalizer
+
+node.course:
+  type: node
+  extends: node.tagged_node
+  bundle: course
+  fields:
+    field_description:
+      name: description
+      normalizer: entity_rich_text.normalizer
+    field_learning_content:
+      name: learning_objects
+    field_image:
+      name: image
+      type: large
+      normalizer: image_style.normalizer
+
+node.tip_card:
+  type: node
+  extends: node.tagged_node
+  bundle: tip_card
+  fields:
+    field_card_front:
+      name: contents
+      normalizer: renderered_html.normalizer
+
+node.flash_card:
+  type: node
+  extends: node.tagged_node
+  bundle: flash_card
+  fields:
+    field_card_front:
+      name: contents
+      normalizer: renderered_html.normalizer
+    field_card_back:
+      name: back_contents
+      normalizer: renderered_html.normalizer
+
+node.learning_object:
+  type: node
+  extends: node.tagged_node
+  bundle: [learn_article,learn_link,learn_package]
+  fields:
+    field_description:
+      name: description
+      normalizer: entity_rich_text.normalizer
+    field_image:
+      name: image
+      type: large
+      normalizer: image_style.normalizer
+
+node.learn_article:
+  type: node
+  extends: node.learning_object
+  bundle: learn_article
+  fields:
+    field_body:
+      name: body
+
+paragraph.quiz_option:
+  type: paragraph
+  bundle: quiz_option
+  fields:
+    uuid:
+    field_answer:
+      name: answer
+      normalizer: entity_rich_text.normalizer
+    field_rationale:
+      name: rationale
+      normalizer: entity_rich_text.normalizer
+    field_correct:
+      name: correct
+
+node.quiz:
+  type: node
+  extends: node.tagged_node
+  bundle: quiz
+  fields:
+    title:
+      name: question
+    field_option:
+      name: options
+
+# TODO: All nodes should have tags; currently courses are missing tags
+node.tagged_node:
+  type: node
+  extends: node.base
+  weight: -1
+  fields:
+    field_tags:
+      name: tags
+
+node.base:
+  type: node
+  bundle: [course,flash_card,learn_article,learn_link,learn_package,quiz,tip_card]
+  weight: -2
+  fields:
+    uuid:
+      name: id
+    nid:
+    vid:
+    url:
+      type: pseudo
+      normalizer: entity_url.normalizer
+    title:
+      name: name
+    type:
+      normalizer: node_type.normalizer
+    changed:
+      normalizer: datetime_to_iso8601.normalizer
+    promote:
+      name: is_promoted
+    sticky:
+      name: is_sticky
+    field_topic:
+      name: topic
+
+flag.recommendation:
+  type: flagging
+  extends: flag.base
+  bundle: [recommendation]
+  fields:
+    field_recommendation_reason:
+      name: reason
+    field_recommendation_score:
+      name: score
+
+flag.base:
+  type: flagging
+  bundle: [bookmark, completed, recommendation]
+  fields:
+    uuid:
+      name: id
+    flag_id:
+      name: type
+      normalizer: entity_id.normalizer
+    entity_id:
+      name: nid
+    created:
+      normalizer: datetime_to_iso8601.normalizer

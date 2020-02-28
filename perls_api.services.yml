@@ -1,0 +1,14 @@
+services:
+  renderered_html.normalizer:
+    class: Drupal\perls_api\EntityNormalizer\RenderedHtmlNormalizer
+  entity_id.normalizer:
+    class: Drupal\perls_api\EntityNormalizer\EntityIdNormalizer
+  datetime_to_iso8601.normalizer:
+    class: Drupal\perls_api\EntityNormalizer\DateTimeIso8601Normalizer
+  image_style.normalizer:
+    class: Drupal\perls_api\EntityNormalizer\ImageStyleNormalizer
+  perls_api.request_formatter:
+    class: Drupal\perls_api\EventSubscriber\RequestFormatSubscriber
+    arguments: []
+    tags:
+      - { name: event_subscriber }
